@@ -1,5 +1,7 @@
 # NVim QuickComment
 
+[![Quick comment demo](https://github.com/Stephen-Seo/nvim-quickcomment/raw/main/images/quickcomment.gif)](https://github.com/Stephen-Seo/nvim-quickcomment)
+
 Quickly comment lines in a file with a single command.
 
 ## Installation
