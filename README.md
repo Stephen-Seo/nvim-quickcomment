@@ -36,3 +36,5 @@ It can also be set globally:
 Note that `b:quickcomment_...` has precedence over `g:quickcomment_...`. Also
 note that `%s` must be in the override `commentstring` which denotes where the
 line content is relative to the comment symbols.
+
+[![Quick comment override demo](https://github.com/Stephen-Seo/nvim-quickcomment/raw/main/images/quickcomment_override.gif)](https://github.com/Stephen-Seo/nvim-quickcomment#overrides)
