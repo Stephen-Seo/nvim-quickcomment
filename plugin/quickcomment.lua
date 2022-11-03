@@ -18,7 +18,8 @@ vim.g.quickcomment_escapecommentstring = function(comment_string)
 end
 
 vim.g.quickcomment_getcommentstr = function ()
-    local comment_string = vim.api.nvim_buf_get_option(0, 'comments')
+    local comment_string = vim.api.nvim_buf_get_option(0, 'commentstring')
+    comment_string = comment_string:gsub('%%s', '')
     local has_comment = string.find(comment_string, ',')
     if has_comment ~= nil and has_comment > 1 then
         comment_string = string.sub(comment_string, 1, has_comment - 1)
