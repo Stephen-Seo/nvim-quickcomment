@@ -20,3 +20,19 @@ Or in init.vim:
 
     nmap q :lua vim.g.quickcomment_togglecommentline()<CR>
     vmap q :luado vim.g.quickcomment_togglecommentline(linenr)<CR>
+
+## Overrides
+
+Say you want to use `// ` to comment lines in C files instead of `/* ... */`.  
+Set an override string like the following:
+
+    let b:quickcomment_commentstring_override = '// %s'
+
+This will override how the comment is set for the current buffer.  
+It can also be set globally:
+
+    let g:quickcomment_commentstring_override = '/* a comment: %s */'
+
+Note that `b:quickcomment_...` has precedence over `g:quickcomment_...`. Also
+note that `%s` must be in the override `commentstring` which denotes where the
+line content is relative to the comment symbols.

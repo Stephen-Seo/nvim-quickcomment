@@ -40,12 +40,27 @@ vim.g.quickcomment_escapestring = function(string_to_escape)
 end
 
 vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
-    local comment_string = vim.api.nvim_buf_get_option(0, 'commentstring')
+    -- get comment_string
+    local comment_string = vim.b.quickcomment_commentstring_override
     if comment_string == nil then
-        print('QuickComment: ERROR: Unable to get comment string, "commentstring" is not defined!')
+        comment_string = vim.g.quickcomment_commentstring_override
+        if comment_string == nil then
+            comment_string = vim.api.nvim_buf_get_option(0, 'commentstring')
+            if comment_string == nil then
+                print('QuickComment: ERROR: Unable to get comment string')
+                return
+            end
+        end
+    end
+
+    -- validate comment_string
+    local sub_find, sub_end = comment_string:find('%%s')
+    if sub_find == nil then
+        print('QuickComment: ERROR: comment_string doesn\'t have "%s"!')
         return
     end
-    local sub_find, sub_end = comment_string:find('%%s')
+
+    -- get escaped_string
     local escaped_string = ''
     if sub_find ~= nil and sub_find > 1 then
         escaped_string = vim.g.quickcomment_escapestring(comment_string:sub(1, sub_find - 1))
@@ -55,11 +70,14 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
         escaped_string = escaped_string .. vim.g.quickcomment_escapestring(comment_string:sub(sub_end + 1))
     end
 
+    -- get lines to comment/uncomment
     local lines = vim.api.nvim_buf_get_lines(0, line_start, line_end, false)
     for i, line in ipairs(lines) do
         if line:find(escaped_string) == nil then
+            -- not commented, comment line
             lines[i] = comment_string:format(line)
         else
+            -- commented, uncomment line
             local match_cap = line:gmatch(escaped_string)
             local captured = match_cap()
             if captured ~= nil then
