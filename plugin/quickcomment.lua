@@ -83,7 +83,7 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
             if captured ~= nil then
                 lines[i] = captured
             else
-                print('QuickComment: ERROR: Failed to uncomment line ' .. i .. '!')
+                print('QuickComment: ERROR: Failed to uncomment line ' .. (i + line_start - 1) .. '!')
             end
         end
     end
