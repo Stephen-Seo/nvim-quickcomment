@@ -24,8 +24,9 @@ vim.g.quickcomment_getcommentstr = function ()
         comment_string = string.sub(comment_string, 1, has_comment - 1)
     end
 
-    if string.sub(comment_string, 1, 1) == ':' then
-        comment_string = string.sub(comment_string, 2)
+    local colon_idx = string.find(comment_string, ':')
+    if colon_idx ~= nil then
+        comment_string = string.sub(comment_string, colon_idx + 1)
     end
 
     if string.len(comment_string) == 0 then
