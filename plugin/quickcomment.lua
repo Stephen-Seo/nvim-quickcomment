@@ -21,6 +21,7 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
     local comment_string = vim.api.nvim_buf_get_option(0, 'commentstring')
     if comment_string == nil then
         print('QuickComment: ERROR: Unable to get comment string, "commentstring" is not defined!')
+        return
     end
     local sub_find, sub_end = comment_string:find('%%s')
     local escaped_string = ''
@@ -43,6 +44,7 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
                 lines[i] = captured
             else
                 print('QuickComment: ERROR: Failed to uncomment!')
+                return
             end
         end
     end
