@@ -1,5 +1,12 @@
 # NVim QuickComment
 
+Quickly comment lines in a file with a single command.
+
+## Installation
+
+Create the directory structure `${HOME}/.config/nvim/pack/plugins/start/` and
+place `nvim-quickcomment/` in `start/`, or use a plugin manager.
+
 ## Usage
 
 Add the following to your init.lua (replace "q" with the key you want to map to):
