@@ -73,7 +73,7 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
     -- get lines to comment/uncomment
     local lines = vim.api.nvim_buf_get_lines(0, line_start, line_end, false)
     for i, line in ipairs(lines) do
-        if line:find(escaped_string) == nil then
+        if line:find('^' .. escaped_string) == nil then
             -- not commented, comment line
             lines[i] = comment_string:format(line)
         else
