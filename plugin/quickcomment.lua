@@ -25,6 +25,20 @@ if vim.g.loaded_quickcomment then
 end
 vim.g.loaded_quickcomment = true
 
+vim.g.quickcomment_escapepercent = function(string_to_escape)
+    local escaped_string = ''
+
+    string_to_escape:gsub(".", function(c)
+        if c:find('%%') == nil then
+            escaped_string = escaped_string .. c
+        else
+            escaped_string = escaped_string .. '%' .. c
+        end
+    end)
+
+    return escaped_string
+end
+
 vim.g.quickcomment_escapestring = function(string_to_escape)
     local escaped_string = ''
 
@@ -60,14 +74,18 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
         return
     end
 
-    -- get escaped_string
+    -- get escaped_string and percent-escaped comment string
     local escaped_string = ''
+    local pe_comment_string = ''
     if sub_find ~= nil and sub_find > 1 then
         escaped_string = vim.g.quickcomment_escapestring(comment_string:sub(1, sub_find - 1))
+        pe_comment_string = vim.g.quickcomment_escapepercent(comment_string:sub(1, sub_find - 1))
     end
     escaped_string = escaped_string .. '(.*)'
+    pe_comment_string = pe_comment_string .. '%s'
     if sub_end < comment_string:len() then
         escaped_string = escaped_string .. vim.g.quickcomment_escapestring(comment_string:sub(sub_end + 1))
+        pe_comment_string = pe_comment_string .. vim.g.quickcomment_escapepercent(comment_string:sub(sub_end + 1))
     end
 
     -- get lines to comment/uncomment
@@ -75,7 +93,7 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
     for i, line in ipairs(lines) do
         if line:find('^' .. escaped_string) == nil then
             -- not commented, comment line
-            lines[i] = comment_string:format(line)
+            lines[i] = pe_comment_string:format(line)
         else
             -- commented, uncomment line
             local match_cap = line:gmatch(escaped_string)
