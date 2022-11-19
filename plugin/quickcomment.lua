@@ -90,11 +90,13 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
 
     local escaped_string_prefix = ''
     if vim.b.quickcomment_whitespaceprefix ~= nil then
-        if vim.b.quickcomment_whitespaceprefix then
+        if vim.b.quickcomment_whitespaceprefix ~= 0
+                or vim.b.quickcomment_whitespaceprefix == true then
             escaped_string_prefix = '%s*'
         end
     elseif vim.g.quickcomment_whitespaceprefix ~= nil
-            and vim.g.quickcomment_whitespaceprefix then
+            and vim.g.quickcomment_whitespaceprefix ~= 0
+            or vim.g.quickcomment_whitespaceprefix == true then
         escaped_string_prefix = '%s*'
     end
 
