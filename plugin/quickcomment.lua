@@ -88,15 +88,25 @@ vim.g.quickcomment_togglecommentlines = function (line_start, line_end)
         pe_comment_string = pe_comment_string .. vim.g.quickcomment_escapepercent(comment_string:sub(sub_end + 1))
     end
 
+    local escaped_string_prefix = ''
+    if vim.b.quickcomment_whitespaceprefix ~= nil then
+        if vim.b.quickcomment_whitespaceprefix then
+            escaped_string_prefix = '%s*'
+        end
+    elseif vim.g.quickcomment_whitespaceprefix ~= nil
+            and vim.g.quickcomment_whitespaceprefix then
+        escaped_string_prefix = '%s*'
+    end
+
     -- get lines to comment/uncomment
     local lines = vim.api.nvim_buf_get_lines(0, line_start, line_end, false)
     for i, line in ipairs(lines) do
-        if line:find('^' .. escaped_string) == nil then
+        if line:find('^' .. escaped_string_prefix .. escaped_string) == nil then
             -- not commented, comment line
             lines[i] = pe_comment_string:format(line)
         else
             -- commented, uncomment line
-            local match_cap = line:gmatch(escaped_string)
+            local match_cap = line:gmatch(escaped_string_prefix .. escaped_string)
             local captured = match_cap()
             if captured ~= nil then
                 lines[i] = captured

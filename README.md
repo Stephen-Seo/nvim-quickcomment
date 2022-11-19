@@ -21,6 +21,26 @@ Or in init.vim:
     nmap q :lua vim.g.quickcomment_togglecommentline()<CR>
     vmap q :luado vim.g.quickcomment_togglecommentline(linenr)<CR>
 
+## Whitespace before comment string
+
+If `b:quickcomment_whitespaceprefix` or `g:quickcomment_whitespaceprefix` is set
+to true, then quickcomment will uncomment comments with leading whitespace.
+
+In `init.vim` this option can be set globally with:
+
+    let g:quickcomment_whitespaceprefix = 1
+
+or locally with:
+
+    let b:quickcomment_whitespaceprefix = 1
+
+Or in `init.lua` set this option with:
+
+    vim.g.quickcomment_whitespaceprefix = true
+    vim.b.quickcomment_whitespaceprefix = true
+
+The `b` (local) variant holds precendence over the `g` (global) variant.
+
 ## Overrides
 
 Say you want to use `// ` to comment lines in C files instead of `/* ... */`.  
